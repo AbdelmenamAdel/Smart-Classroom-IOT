@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "375903203924",
+    "firebase_url": "https://iot-1e0ae-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "iot-1e0ae",
+    "storage_bucket": "iot-1e0ae.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375903203924:android:65b66edd12208edd3bf3c1",
+        "android_client_info": {
+          "package_name": "com.example.smart_classroom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRBLwGksMH7wJjCCDP0KIKG54eQKAyMBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
