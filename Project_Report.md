@@ -7,9 +7,11 @@ Traditional classroom management relies on manual monitoring of environmental fa
 
 ### Objectives
 - To develop a real-time monitoring system for classroom environmental conditions.
+- To implement dual-protocol connectivity (Firebase & MQTT/Mosquitto) for robust device control.
 - To implement an automated/remote control system for classroom lighting to save energy.
 - To provide a live count of students present in the classroom.
 - To visualize historical data trends for better facility management.
+- To provide a modern navigation experience using Zoom Drawer.
 
 ### Scope
 - **Real-time Monitoring**: Temperature, Humidity, and Student Count.
@@ -20,9 +22,9 @@ Traditional classroom management relies on manual monitoring of environmental fa
 
 ### Proposed Solution
 A comprehensive IoT ecosystem consisting of:
-1.  **Hardware Layer**: Sensors and actuators connected to a microcontroller (e.g., ESP8266).
-2.  **Cloud Layer**: Firebase Realtime Database for instantaneous data synchronization.
-3.  **Application Layer**: A Flutter mobile app providing a high-performance, interactive dashboard.
+1.  **Hardware Layer**: Sensors and actuators connected to a microcontroller (e.g., ESP32/ESP8266).
+2.  **Cloud Layer**: Firebase Realtime Database and Mosquitto MQTT Broker for data synchronization.
+3.  **Application Layer**: A Flutter mobile app featuring a Zoom Drawer navigation system and dedicated Firebase/MQTT control screens.
 
 ---
 
@@ -55,7 +57,7 @@ A comprehensive IoT ecosystem consisting of:
 ### System Architecture
 The system follows a three-tier architecture:
 1.  **Device Layer (IoT)**: Collects data and performs physical actions.
-2.  **Communication Layer (Firebase)**: Acts as the "Brain" and data bridge.
+2.  **Communication Layer (Firebase & MQTT)**: Acts as the "Brain" and data bridge for multi-protocol synchronization.
 3.  **User Layer (Mobile App)**: Provides the control and visualization interface.
 
 ### Block Diagram
@@ -70,11 +72,14 @@ graph TD
 
     subgraph "Cloud Layer"
         MCU <--> FRD[(Firebase Realtime Database)]
+        MCU <--> MQB[(MQTT Broker - Mosquitto)]
     end
 
     subgraph "Application Layer (Mobile)"
         FRD <--> APP[Flutter Mobile App]
+        MQB <--> APP
         APP --> UI[Dashboard UI]
+        APP --> MQT[MQTT Control UI]
         APP --> CH[Historical Charts]
     end
 ```

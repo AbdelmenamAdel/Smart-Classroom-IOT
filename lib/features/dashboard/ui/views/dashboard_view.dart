@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_classroom/features/auther/auther_media.dart';
 import '../../logic/dashboard_cubit.dart';
@@ -37,6 +38,10 @@ class DashboardView extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              IconButton(
+                                icon: const Icon(Icons.menu, size: 30),
+                                onPressed: () => ZoomDrawer.of(context)!.toggle(),
+                              ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

@@ -6,6 +6,8 @@ import 'firebase_options.dart';
 import 'features/dashboard/data/repositories/dashboard_repository.dart';
 import 'features/dashboard/logic/dashboard_cubit.dart';
 import 'features/dashboard/ui/views/dashboard_view.dart';
+import 'features/home/ui/zoom_drawer_wrapper.dart';
+import 'features/mqtt/logic/mqtt_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +33,9 @@ class SmartClassroomApp extends StatelessWidget {
               context.read<DashboardRepository>(),
             )..startMonitoring(),
           ),
+          BlocProvider(
+            create: (context) => MqttCubit()..connect(),
+          ),
         ],
         child: MaterialApp(
           title: 'Smart Classroom',
@@ -43,7 +48,7 @@ class SmartClassroomApp extends StatelessWidget {
             ),
             textTheme: GoogleFonts.poppinsTextTheme(),
           ),
-          home: const DashboardView(),
+          home: const MainWrapper(),
         ),
       ),
     );
