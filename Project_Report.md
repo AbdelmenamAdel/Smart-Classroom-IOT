@@ -19,7 +19,7 @@ Traditional classroom management relies on manual monitoring of environmental fa
 
 ### Proposed Solution
 A comprehensive IoT ecosystem consisting of:
-1.  **Hardware Layer**: Sensors and actuators connected to a microcontroller (e.g., ESP32).
+1.  **Hardware Layer**: Sensors and actuators connected to a microcontroller (e.g., ESP8266).
 2.  **Cloud Layer**: Firebase Realtime Database for instantaneous data synchronization.
 3.  **Application Layer**: A Flutter mobile app providing a high-performance, interactive dashboard.
 
