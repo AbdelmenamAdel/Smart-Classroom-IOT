@@ -7,6 +7,14 @@
 
 A cutting-edge IoT solution for modern classrooms. Monitor environmental conditions, track student presence, and control hardware in real-time with a premium, high-performance mobile dashboard.
 
+
+---
+
+## 📄 Project Report
+A comprehensive report detailing the requirements, architecture, and testing strategy for this project is available.
+
+👉 **[View Project Report](Project_Report.md)**
+
 ---
 
 ## ✨ Key Features
