@@ -81,7 +81,7 @@ A comprehensive report detailing the requirements, architecture, and testing str
 
 | Dashboard | History & Trends | Meet Developer |
 | :---: | :---: | :---: |
-| ![Dashboard](https://via.placeholder.com/200x400?text=Dashboard) | ![Charts](https://via.placeholder.com/200x400?text=Trends) | ![Developer](https://via.placeholder.com/200x400?text=Developer) |
+| ![Dashboard](assets/screenshots/dashboard.png) | ![Charts](assets/screenshots/trends.png) | ![Developer](assets/screenshots/developer.png) |
 
 ---
 

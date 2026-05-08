@@ -13,6 +13,7 @@ Traditional classroom management relies on manual monitoring of environmental fa
 
 ### Scope
 - **Real-time Monitoring**: Temperature, Humidity, and Student Count.
+- **Trend Visualization**: Historical charts for Temperature, Humidity, and Student Attendance.
 - **Remote Control**: Manual toggle for lights via a mobile application.
 - **Data Logging**: Storing sensor data in the cloud for trend analysis.
 - **User Interface**: A premium mobile dashboard for easy access and control.
@@ -94,4 +95,4 @@ The test strategy focuses on verifying the integrity of data transmission, the r
 | **TC-03** | Remote Control | Toggling light in app triggers physical relay immediately. |
 | **TC-04** | Offline Resilience | App displays last cached data if connection is lost. |
 | **TC-05** | History Recording | Data is correctly appended to the 'history' node in Firebase. |
-| **TC-06** | Chart Rendering | Line charts correctly visualize fluctuations from historical data. |
+| **TC-06** | Chart Rendering | Line charts correctly visualize fluctuations for all metrics (Temp, Humidity, Students). |

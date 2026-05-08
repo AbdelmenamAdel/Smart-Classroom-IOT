@@ -175,6 +175,13 @@ class DashboardView extends StatelessWidget {
                           field: 'humidity',
                           color: const Color(0xFF8FD3F4),
                         ),
+                        const SizedBox(height: 20),
+                        HistoryChart(
+                          history: state.history,
+                          title: 'Students Trend',
+                          field: 'students',
+                          color: const Color(0xFFA18CD1),
+                        ),
                       ]),
                     ),
                   ),
