@@ -5,7 +5,10 @@
 ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)
 
+
 A cutting-edge IoT solution for modern classrooms. Monitor environmental conditions, track student presence, and control hardware in real-time with a premium, high-performance mobile dashboard.
+
+![Showcase](assets/screenshots/showcase.png)
 
 
 ---
