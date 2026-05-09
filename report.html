@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Classroom IoT - Project Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --accent: #ec4899;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text: #f8fafc;
+            --text-dim: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        section {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--primary), transparent);
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin: 20px 0 10px 0;
+            color: var(--secondary);
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #cbd5e1;
+        }
+
+        ul {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+            color: #cbd5e1;
+        }
+
+        li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th {
+            background: rgba(99, 102, 241, 0.2);
+            text-align: left;
+            padding: 15px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--glass-border);
+            color: #cbd5e1;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .mermaid {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin: 20px 0;
+        }
+
+        /* Resources Section */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .resource-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--secondary);
+        }
+
+        .resource-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            transform: scale(1.05);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--glass-border);
+            color: var(--text);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 16px;
+            margin-top: 20px;
+            background: #1e293b;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            section { padding: 25px; }
+            .pdf-viewer { height: 400px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Smart Classroom IOT</h1>
+            <p class="subtitle">Comprehensive Project Report & Documentation</p>
+        </header>
+
+        <section id="overview">
+            <h2>1. Project Overview</h2>
+            <h3>Problem Statement</h3>
+            <p>Traditional classroom management relies on manual monitoring of environmental factors and energy usage. Lights are often left on when not needed, and environmental conditions are not tracked, impacting comfort and focus.</p>
+            
+            <h3>Objectives</h3>
+            <ul>
+                <li>Real-time monitoring of environmental conditions.</li>
+                <li>Dual-protocol connectivity (Firebase & MQTT).</li>
+                <li>Automated/Remote energy-saving lighting control.</li>
+                <li>Live student occupancy tracking.</li>
+                <li>Historical data visualization via trends.</li>
+            </ul>
+
+            <h3>Proposed Solution</h3>
+            <p>A multi-layered IoT ecosystem integrating hardware (ESP32/ESP8266), cloud synchronization (Firebase/Mosquitto), and a high-performance Flutter mobile application.</p>
+        </section>
+
+        <section id="io">
+            <h2>2. System Inputs and Outputs</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Input/Output</th>
+                        <th>Type</th>
+                        <th>Meaning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Temperature</td><td>Input</td><td>Ambient heat in Celsius</td></tr>
+                    <tr><td>Humidity</td><td>Input</td><td>Moisture level percentage</td></tr>
+                    <tr><td>Student Count</td><td>Input</td><td>Number of individuals present</td></tr>
+                    <tr><td>Light Level</td><td>Input</td><td>Brightness monitoring</td></tr>
+                    <tr><td>Light Status</td><td>Output</td><td>ON/OFF state of classroom lights</td></tr>
+                    <tr><td>System Mode</td><td>I/O</td><td>AUTOMATIC vs MANUAL operation</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="devices">
+            <h2>3. Device Layer</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Device</th>
+                        <th>Category</th>
+                        <th>Function</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>DHT11 / DHT22</td><td>Sensor</td><td>Detects temperature/humidity</td></tr>
+                    <tr><td>PIR / IR Sensors</td><td>Sensor</td><td>Motion/entry counting</td></tr>
+                    <tr><td>LDR</td><td>Sensor</td><td>Light intensity measurement</td></tr>
+                    <tr><td>Relay Module</td><td>Actuator</td><td>Lighting toggle switch</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="architecture">
+            <h2>4. System Architecture</h2>
+            <div class="mermaid">
+                graph TD
+                    subgraph "Device Layer (Hardware/Simulation)"
+                        S1[DHT Sensor] --> MCU[Microcontroller - ESP32]
+                        S2[PIR/IR Sensors] --> MCU
+                        S3[LDR Sensor] --> MCU
+                        MCU --> A1[Relay - Lights]
+                        MS[Mobile Simulator] -- MQTT --> MQB
+                        WS[Web Simulator] -- WebSockets --> MQB
+                    end
+
+                    subgraph "Cloud Layer"
+                        MCU <--> FRD[(Firebase Realtime Database)]
+                        MCU <--> MQB[(MQTT Broker - Mosquitto)]
+                    end
+
+                    subgraph "Application Layer (Mobile)"
+                        FRD <--> APP[Flutter Mobile App]
+                        MQB <--> APP
+                        APP --> UI[Dashboard UI]
+                        APP --> MQT[MQTT Control UI]
+                        APP --> CH[Historical Charts]
+                        APP --> SD[Simulator UI]
+                    end
+            </div>
+        </section>
+
+        <section id="firmware">
+            <h2>5. Firmware Implementation</h2>
+            <p>The hardware logic is implemented in C++ using the Arduino framework for ESP8266. Key features include:</p>
+            <ul>
+                <li><strong>Bi-directional Counting</strong>: Sequence-based IR sensor logic.</li>
+                <li><strong>Dual Cloud Sync</strong>: Simultaneous updates to Firebase and MQTT.</li>
+                <li><strong>Auto/Manual Logic</strong>: Smart occupancy-based control with manual override.</li>
+            </ul>
+        </section>
+
+        <section id="resources">
+            <h2>6. Project Resources</h2>
+            <p>Access the full documentation, technical report, and presentation slides below.</p>
+            
+            <div class="resources-grid">
+                <!-- PDF Report -->
+                <div class="resource-card">
+                    <div class="resource-icon">📄</div>
+                    <h3>Technical Report</h3>
+                    <p>Detailed PDF documentation of the system design and implementation.</p>
+                    <a href="assets/reports/Smart_Classroom_IoT_Report.pdf" class="btn btn-primary" target="_blank">Open PDF</a>
+                    <a href="assets/reports/Smart_Classroom_IoT_Report.pdf" download class="btn btn-outline">Download</a>
+                </div>
+
+                <!-- PPTX Presentation -->
+                <div class="resource-card">
+                    <div class="resource-icon">📊</div>
+                    <h3>Presentation Slides</h3>
+                    <p>Project presentation deck covering high-level features and architecture.</p>
+                    <a href="https://docs.google.com/viewer?url=https://AbdelmenamAdel.github.io/Smart-Classroom-IOT/assets/reports/Smart_Classroom_IoT.pptx&embedded=true" class="btn btn-primary" target="_blank">View Slides</a>
+                    <a href="assets/reports/Smart_Classroom_IoT.pptx" download class="btn btn-outline">Download PPTX</a>
+                </div>
+            </div>
+
+            <h3>Report Preview</h3>
+            <iframe src="assets/reports/Smart_Classroom_IoT_Report.pdf" class="pdf-viewer"></iframe>
+        </section>
+
+        <section id="testing">
+            <h2>7. Test Strategy</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Test Case</th>
+                        <th>Expected Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>TC-01</td><td>Data Accuracy</td><td>Readings match environment</td></tr>
+                    <tr><td>TC-02</td><td>Real-time Sync</td><td>Updates within < 1 second</td></tr>
+                    <tr><td>TC-03</td><td>Remote Control</td><td>Instant relay triggering</td></tr>
+                    <tr><td>TC-04</td><td>Offline Resilience</td><td>Cached data display</td></tr>
+                    <tr><td>TC-05</td><td>History Recording</td><td>Firebase history persistence</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Smart Classroom IoT Project | Developed by Abdelmoneim Adel</p>
+        </footer>
+    </div>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</body>
+</html>

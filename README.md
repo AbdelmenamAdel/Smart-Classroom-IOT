@@ -32,7 +32,7 @@ A cutting-edge IoT solution for modern classrooms. Monitor environmental conditi
 ## 📄 Project Report
 A comprehensive report detailing the requirements, architecture, and testing strategy for this project is available.
 
-👉 **[View Project Report](Project_Report.md)**
+👉 **[View Project Report (Web Version)](report.html)** | [Markdown Version](assets/reports/Project_Report.md)
 
 ---
 
