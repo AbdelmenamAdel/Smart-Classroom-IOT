@@ -12,6 +12,10 @@ class MqttState extends Equatable {
   final String mode;
   final String light;
   final MqttConnectionState connectionState;
+  // Simulated values for persistence
+  final double simTemp;
+  final double simHumidity;
+  final int simStudents;
 
   const MqttState({
     this.students = "0",
@@ -20,6 +24,9 @@ class MqttState extends Equatable {
     this.mode = "AUTO",
     this.light = "OFF",
     this.connectionState = MqttConnectionState.disconnected,
+    this.simTemp = 25.0,
+    this.simHumidity = 50.0,
+    this.simStudents = 0,
   });
 
   MqttState copyWith({
@@ -29,6 +36,9 @@ class MqttState extends Equatable {
     String? mode,
     String? light,
     MqttConnectionState? connectionState,
+    double? simTemp,
+    double? simHumidity,
+    int? simStudents,
   }) {
     return MqttState(
       students: students ?? this.students,
@@ -37,11 +47,24 @@ class MqttState extends Equatable {
       mode: mode ?? this.mode,
       light: light ?? this.light,
       connectionState: connectionState ?? this.connectionState,
+      simTemp: simTemp ?? this.simTemp,
+      simHumidity: simHumidity ?? this.simHumidity,
+      simStudents: simStudents ?? this.simStudents,
     );
   }
 
   @override
-  List<Object> get props => [students, temp, humidity, mode, light, connectionState];
+  List<Object> get props => [
+        students,
+        temp,
+        humidity,
+        mode,
+        light,
+        connectionState,
+        simTemp,
+        simHumidity,
+        simStudents,
+      ];
 }
 
 class MqttCubit extends Cubit<MqttState> {
@@ -104,6 +127,14 @@ class MqttCubit extends Cubit<MqttState> {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
     client?.publishMessage(topic, MqttQos.atLeastOnce, builder.payload!);
+  }
+
+  void updateSimulatedValues({double? temp, double? humidity, int? students}) {
+    emit(state.copyWith(
+      simTemp: temp,
+      simHumidity: humidity,
+      simStudents: students,
+    ));
   }
 
   @override

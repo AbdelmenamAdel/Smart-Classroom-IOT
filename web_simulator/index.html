@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Classroom | Web Simulator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fe;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 500px;
+        }
+        h1 { font-size: 24px; margin-bottom: 10px; color: #1d1d1d; }
+        p.subtitle { color: #666; font-size: 14px; margin-bottom: 30px; }
+        .status {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            border-radius: 15px;
+            background: #f0f0f0;
+        }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; margin-right: 10px; }
+        .connected .status-dot { background: #4caf50; }
+        .disconnected .status-dot { background: #f44336; }
+        
+        .control-group { margin-bottom: 25px; }
+        .label-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .label { font-weight: 600; font-size: 14px; }
+        .value { font-weight: bold; color: #2196f3; }
+        
+        input[type=range] { width: 100%; cursor: pointer; }
+        
+        .student-controls { display: flex; align-items: center; justify-content: center; gap: 20px; }
+        .btn-circle {
+            width: 40px; height: 40px; border-radius: 50%; border: none;
+            background: #eee; font-size: 20px; cursor: pointer; transition: 0.2s;
+        }
+        .btn-circle:hover { background: #ddd; }
+        .students-val { font-size: 24px; font-weight: bold; width: 50px; text-align: center; }
+
+        .config { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
+        input[type=text] {
+            width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #ddd;
+            margin-bottom: 10px; box-sizing: border-box;
+        }
+        .btn-connect {
+            width: 100%; padding: 12px; border-radius: 10px; border: none;
+            background: #2196f3; color: white; font-weight: bold; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Web Simulator 🌐</h1>
+    <p class="subtitle">Simulate IoT data for Smart Classroom</p>
+
+    <div id="connectionStatus" class="status disconnected">
+        <div class="status-dot"></div>
+        <span id="statusText">DISCONNECTED</span>
+    </div>
+
+    <div class="control-group">
+        <div class="label-row">
+            <span class="label">🌡 Temperature</span>
+            <span class="value" id="tempText">25.0 °C</span>
+        </div>
+        <input type="range" id="tempRange" min="0" max="50" step="0.1" value="25">
+    </div>
+
+    <div class="control-group">
+        <div class="label-row">
+            <span class="label">💧 Humidity</span>
+            <span class="value" id="humText">50 %</span>
+        </div>
+        <input type="range" id="humRange" min="0" max="100" value="50">
+    </div>
+
+    <div class="control-group">
+        <div class="label-row">
+            <span class="label">👥 Students</span>
+        </div>
+        <div class="student-controls">
+            <button class="btn-circle" onclick="updateStudents(-1)">-</button>
+            <span class="students-val" id="studText">0</span>
+            <button class="btn-circle" onclick="updateStudents(1)">+</button>
+        </div>
+    </div>
+
+    <div class="config">
+        <input type="text" id="brokerIp" placeholder="Broker IP (e.g. 192.168.1.9)" value="192.168.1.9">
+        <input type="text" id="brokerPort" placeholder="WebSocket Port (default 9001)" value="9001">
+        <button class="btn-connect" onclick="connect()">CONNECT</button>
+    </div>
+</div>
+
+<script>
+    let mqtt;
+    let students = 0;
+
+    function connect() {
+        const host = document.getElementById('brokerIp').value;
+        const port = parseInt(document.getElementById('brokerPort').value);
+        
+        const statusDiv = document.getElementById('connectionStatus');
+        const statusText = document.getElementById('statusText');
+
+        statusText.innerText = "CONNECTING...";
+        
+        mqtt = new Paho.MQTT.Client(host, port, "web_client_" + Math.random());
+        
+        const options = {
+            onSuccess: () => {
+                statusDiv.className = "status connected";
+                statusText.innerText = "CONNECTED";
+            },
+            onFailure: (e) => {
+                statusDiv.className = "status disconnected";
+                statusText.innerText = "FAILED: " + e.errorMessage;
+            }
+        };
+
+        mqtt.connect(options);
+    }
+
+    function publish(topic, message) {
+        if (mqtt && mqtt.isConnected()) {
+            const msg = new Paho.MQTT.Message(message.toString());
+            msg.destinationName = topic;
+            mqtt.send(msg);
+        }
+    }
+
+    document.getElementById('tempRange').oninput = function() {
+        document.getElementById('tempText').innerText = this.value + " °C";
+        publish("smartclassroom/temp", this.value);
+    };
+
+    document.getElementById('humRange').oninput = function() {
+        document.getElementById('humText').innerText = this.value + " %";
+        publish("smartclassroom/humidity", this.value);
+    };
+
+    function updateStudents(val) {
+        students = Math.max(0, students + val);
+        document.getElementById('studText').innerText = students;
+        publish("smartclassroom/students", students);
+    }
+</script>
+
+</body>
+</html>

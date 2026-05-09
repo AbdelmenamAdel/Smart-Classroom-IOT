@@ -13,99 +13,101 @@ class MqttSimulatorView extends StatefulWidget {
 }
 
 class _MqttSimulatorViewState extends State<MqttSimulatorView> {
-  double _temp = 25.0;
-  double _humidity = 50.0;
-  int _students = 0;
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FE),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.menu, color: Colors.black),
-          onPressed: () => ZoomDrawer.of(context)!.toggle(),
-        ),
-        title: Text(
-          'IoT Simulator',
-          style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildInfoCard(),
-            const SizedBox(height: 32),
-            _buildSimulatorControl(
-              title: 'Simulate Temperature',
-              value: _temp.toStringAsFixed(1),
-              unit: '°C',
-              icon: Icons.thermostat,
-              color: Colors.orange,
-              child: Slider(
-                value: _temp,
-                min: 0,
-                max: 50,
-                activeColor: Colors.orange,
-                onChanged: (val) => setState(() => _temp = val),
-                onChangeEnd: (val) => context.read<MqttCubit>().publish(AppConstants.topicTemp, val.toStringAsFixed(1)),
-              ),
+    return BlocBuilder<MqttCubit, MqttState>(
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: const Color(0xFFF8F9FE),
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.menu, color: Colors.black),
+              onPressed: () => ZoomDrawer.of(context)!.toggle(),
             ),
-            const SizedBox(height: 20),
-            _buildSimulatorControl(
-              title: 'Simulate Humidity',
-              value: _humidity.toInt().toString(),
-              unit: '%',
-              icon: Icons.water_drop,
-              color: Colors.blue,
-              child: Slider(
-                value: _humidity,
-                min: 0,
-                max: 100,
-                activeColor: Colors.blue,
-                onChanged: (val) => setState(() => _humidity = val),
-                onChangeEnd: (val) => context.read<MqttCubit>().publish(AppConstants.topicHumidity, val.toInt().toString()),
-              ),
+            title: Text(
+              'IoT Simulator',
+              style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 20),
-            _buildSimulatorControl(
-              title: 'Simulate Students',
-              value: _students.toString(),
-              unit: 'Count',
-              icon: Icons.people,
-              color: Colors.purple,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      if (_students > 0) {
-                        setState(() => _students--);
-                        context.read<MqttCubit>().publish(AppConstants.topicStudents, _students.toString());
-                      }
-                    },
-                    icon: const Icon(Icons.remove_circle_outline, size: 32),
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildInfoCard(),
+                const SizedBox(height: 32),
+                _buildSimulatorControl(
+                  title: 'Simulate Temperature',
+                  value: state.simTemp.toStringAsFixed(1),
+                  unit: '°C',
+                  icon: Icons.thermostat,
+                  color: Colors.orange,
+                  child: Slider(
+                    value: state.simTemp,
+                    min: 0,
+                    max: 50,
+                    activeColor: Colors.orange,
+                    onChanged: (val) => context.read<MqttCubit>().updateSimulatedValues(temp: val),
+                    onChangeEnd: (val) => context.read<MqttCubit>().publish(AppConstants.topicTemp, val.toStringAsFixed(1)),
                   ),
-                  const SizedBox(width: 20),
-                  Text('$_students', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                  const SizedBox(width: 20),
-                  IconButton(
-                    onPressed: () {
-                      setState(() => _students++);
-                      context.read<MqttCubit>().publish(AppConstants.topicStudents, _students.toString());
-                    },
-                    icon: const Icon(Icons.add_circle_outline, size: 32),
+                ),
+                const SizedBox(height: 20),
+                _buildSimulatorControl(
+                  title: 'Simulate Humidity',
+                  value: state.simHumidity.toInt().toString(),
+                  unit: '%',
+                  icon: Icons.water_drop,
+                  color: Colors.blue,
+                  child: Slider(
+                    value: state.simHumidity,
+                    min: 0,
+                    max: 100,
+                    activeColor: Colors.blue,
+                    onChanged: (val) => context.read<MqttCubit>().updateSimulatedValues(humidity: val),
+                    onChangeEnd: (val) => context.read<MqttCubit>().publish(AppConstants.topicHumidity, val.toInt().toString()),
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 20),
+                _buildSimulatorControl(
+                  title: 'Simulate Students',
+                  value: state.simStudents.toString(),
+                  unit: 'Count',
+                  icon: Icons.people,
+                  color: Colors.purple,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          if (state.simStudents > 0) {
+                            final newVal = state.simStudents - 1;
+                            context.read<MqttCubit>().updateSimulatedValues(students: newVal);
+                            context.read<MqttCubit>().publish(AppConstants.topicStudents, newVal.toString());
+                          }
+                        },
+                        icon: const Icon(Icons.remove_circle_outline, size: 32),
+                      ),
+                      const SizedBox(width: 20),
+                      Text('${state.simStudents}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                      const SizedBox(width: 20),
+                      IconButton(
+                        onPressed: () {
+                          final newVal = state.simStudents + 1;
+                          context.read<MqttCubit>().updateSimulatedValues(students: newVal);
+                          context.read<MqttCubit>().publish(AppConstants.topicStudents, newVal.toString());
+                        },
+                        icon: const Icon(Icons.add_circle_outline, size: 32),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
