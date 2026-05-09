@@ -16,6 +16,7 @@ class MqttState extends Equatable {
   final double simTemp;
   final double simHumidity;
   final int simStudents;
+  final String brokerIp;
 
   const MqttState({
     this.students = "0",
@@ -27,6 +28,7 @@ class MqttState extends Equatable {
     this.simTemp = 25.0,
     this.simHumidity = 50.0,
     this.simStudents = 0,
+    this.brokerIp = AppConstants.mqttBrokerIp,
   });
 
   MqttState copyWith({
@@ -39,6 +41,7 @@ class MqttState extends Equatable {
     double? simTemp,
     double? simHumidity,
     int? simStudents,
+    String? brokerIp,
   }) {
     return MqttState(
       students: students ?? this.students,
@@ -50,6 +53,7 @@ class MqttState extends Equatable {
       simTemp: simTemp ?? this.simTemp,
       simHumidity: simHumidity ?? this.simHumidity,
       simStudents: simStudents ?? this.simStudents,
+      brokerIp: brokerIp ?? this.brokerIp,
     );
   }
 
@@ -64,6 +68,7 @@ class MqttState extends Equatable {
         simTemp,
         simHumidity,
         simStudents,
+        brokerIp,
       ];
 }
 
@@ -72,8 +77,9 @@ class MqttCubit extends Cubit<MqttState> {
 
   MqttCubit() : super(const MqttState());
 
-  Future<void> connect() async {
-    client = MqttServerClient(AppConstants.mqttBrokerIp, AppConstants.mqttClientId);
+  Future<void> connect({String? ip}) async {
+    final targetIp = ip ?? state.brokerIp;
+    client = MqttServerClient(targetIp, AppConstants.mqttClientId);
     client!.port = AppConstants.mqttPort;
     client!.keepAlivePeriod = 20;
     client!.onConnected = _onConnected;
@@ -135,6 +141,12 @@ class MqttCubit extends Cubit<MqttState> {
       simHumidity: humidity,
       simStudents: students,
     ));
+  }
+
+  Future<void> updateBrokerIp(String ip) async {
+    emit(state.copyWith(brokerIp: ip));
+    client?.disconnect();
+    await connect(ip: ip);
   }
 
   @override

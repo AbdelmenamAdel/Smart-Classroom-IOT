@@ -87,6 +87,8 @@ class MqttView extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
+                _buildConnectionSettings(context, state),
+                const SizedBox(height: 24),
                 GridView.count(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -225,6 +227,86 @@ class MqttView extends StatelessWidget {
           }).toList(),
         ),
       ],
+    );
+  }
+
+  Widget _buildConnectionSettings(BuildContext context, MqttState state) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Broker Settings',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              IconButton(
+                icon: const Icon(Icons.edit, size: 20, color: Colors.blue),
+                onPressed: () => _showIpDialog(context, state.brokerIp),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              const Icon(Icons.lan, size: 16, color: Colors.grey),
+              const SizedBox(width: 8),
+              Text(
+                'IP: ${state.brokerIp}',
+                style: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 14),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showIpDialog(BuildContext context, String currentIp) {
+    final controller = TextEditingController(text: currentIp);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Edit Broker IP', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
+        content: TextField(
+          controller: controller,
+          decoration: const InputDecoration(
+            hintText: 'e.g. 192.168.1.10',
+            border: OutlineInputBorder(),
+          ),
+          keyboardType: TextInputType.number,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final newIp = controller.text.trim();
+              if (newIp.isNotEmpty) {
+                context.read<MqttCubit>().updateBrokerIp(newIp);
+                Navigator.pop(context);
+              }
+            },
+            child: const Text('Connect'),
+          ),
+        ],
+      ),
     );
   }
 }

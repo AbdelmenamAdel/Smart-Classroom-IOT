@@ -92,7 +92,17 @@ graph TD
 
 ---
 
-## 5. Test Strategy
+## 5. Firmware Implementation (ESP8266)
+
+The hardware logic is implemented in C++ using the Arduino framework. Key components of the firmware include:
+- **Bi-directional Counting**: Uses two IR sensors (IR_A and IR_B) to detect entry and exit events based on the sequence of sensor triggers.
+- **Dual Cloud Sync**: Periodically pushes sensor data (Temperature, Humidity, Light Status) to both **Firebase RTDB** and **Mosquitto MQTT Broker**.
+- **Remote Commands**: Listens to MQTT topics for `mode` and `light` commands to override local logic.
+- **Auto/Manual Logic**: In AUTO mode, lights are controlled by occupancy (students > 0). In MANUAL mode, they follow the app's command.
+
+---
+
+## 6. Test Strategy
 
 ### Overview
 The test strategy focuses on verifying the integrity of data transmission, the responsiveness of controls, and the accuracy of visualizations.
