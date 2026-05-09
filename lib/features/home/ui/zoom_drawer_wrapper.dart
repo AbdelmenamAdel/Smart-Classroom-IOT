@@ -3,6 +3,7 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../dashboard/ui/views/dashboard_view.dart';
 import '../../mqtt/ui/mqtt_view.dart';
+import '../../mqtt/ui/mqtt_simulator_view.dart';
 
 class MainWrapper extends StatefulWidget {
   const MainWrapper({super.key});
@@ -52,8 +53,21 @@ class _MainWrapperState extends State<MainWrapper> {
       transitionBuilder: (Widget child, Animation<double> animation) {
         return FadeTransition(opacity: animation, child: child);
       },
-      child: currentIndex == 0 ? const DashboardView() : const MqttView(),
+      child: _getScreenFromIndex(),
     );
+  }
+
+  Widget _getScreenFromIndex() {
+    switch (currentIndex) {
+      case 0:
+        return const DashboardView(key: ValueKey('dashboard'));
+      case 1:
+        return const MqttView(key: ValueKey('mqtt'));
+      case 2:
+        return const MqttSimulatorView(key: ValueKey('simulator'));
+      default:
+        return const DashboardView(key: ValueKey('dashboard'));
+    }
   }
 }
 
@@ -134,6 +148,13 @@ class MenuScreen extends StatelessWidget {
                 title: 'MQTT Control',
                 isSelected: currentIndex == 1,
                 onTap: () => onMenuClick(1),
+              ),
+              const SizedBox(height: 8),
+              _MenuItem(
+                icon: Icons.sim_card_rounded,
+                title: 'MQTT Simulator',
+                isSelected: currentIndex == 2,
+                onTap: () => onMenuClick(2),
               ),
               const Spacer(),
               Padding(
