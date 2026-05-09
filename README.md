@@ -1,6 +1,22 @@
-# 🏫 Smart Classroom IOT 🚀
+# 🏫 Smart Classroom IOT
 
-![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
+[![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
+[![MQTT](https://img.shields.io/badge/MQTT-Mosquitto-3C3C3C?style=for-the-badge&logo=eclipse-mosquitto&logoColor=white)](https://mosquitto.org)
+
+## 📱 App Showcase
+
+<p align="center">
+  <img src="screenshots/drawer.png" width="30%" alt="Zoom Drawer" />
+  <img src="screenshots/mqtt_control.png" width="30%" alt="MQTT Control" />
+  <img src="screenshots/simulator.png" width="30%" alt="IoT Simulator" />
+</p>
+
+<p align="center">
+  <i>Modern UI with Zoom Drawer, Real-time MQTT Control, and Integrated Simulator</i>
+</p>
+
+---
+
 ![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white)
 ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)
@@ -35,6 +51,10 @@ A comprehensive report detailing the requirements, architecture, and testing str
 ### 🛠 Integrated Testing Tools
 - **Mobile IoT Simulator**: Built-in screen to simulate sensor data locally from within the app.
 - **Professional Web Simulator**: A dedicated web dashboard for laptop-to-app testing via WebSockets.
+
+<p align="center">
+  <img src="screenshots/web_simulator.png" width="80%" alt="Web Simulator" />
+</p>
 
 ---
 
