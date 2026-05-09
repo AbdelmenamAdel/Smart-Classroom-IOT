@@ -1,6 +1,6 @@
 class AppConstants {
   // MQTT Configuration
-  static const String mqttBrokerIp = '192.168.1.9';
+  static const String mqttBrokerIp = '192.168.43.210';
   static const int mqttPort = 1883;
   static const String mqttClientId = 'flutter_client';
 

@@ -60,10 +60,22 @@ A comprehensive report detailing the requirements, architecture, and testing str
 
 ## 🛠 Tech Stack
 - **Frontend**: Flutter (Dart)
+- **Firmware**: Arduino C++ (ESP8266)
 - **State Management**: BLoC / Cubit
 - **Cloud Backend**: Firebase Real-time Database
 - **IoT Protocol**: MQTT (Mosquitto Broker)
 - **Visuals**: FL Chart & Google Fonts
+
+---
+
+## 🔌 Hardware Setup
+The project is powered by an ESP8266 microcontroller with the following peripherals:
+- **DHT11**: Temperature & Humidity monitoring.
+- **Dual IR Sensors**: Bi-directional student counting logic.
+- **Relay Module**: Lighting system control.
+
+> [!TIP]
+> You can find the complete firmware source code in the [hardware/](hardware/smart_classroom_esp8266.ino) directory.
 
 ---
 
