@@ -22,32 +22,28 @@ A comprehensive report detailing the requirements, architecture, and testing str
 
 ## ✨ Key Features
 
-### 📊 Real-time Monitoring
-- **Live Environmental Tracking**: Instant updates on Temperature (°C) and Humidity (%).
-- **Student Analytics**: Real-time counter of students currently in the classroom.
-- **Smart Lighting**: Visual status of the classroom lighting system.
+### 📊 Multi-Protocol Dashboard
+- **Dual Connectivity**: Seamlessly switches between **Firebase Real-time** and **MQTT (Mosquitto)**.
+- **Live Environmental Tracking**: Instant updates on Temperature, Humidity, and Student Analytics.
+- **Bi-directional Control**: Send commands and receive status updates for Mode (Auto/Manual) and Lighting.
 
-### 💡 Interactive Control
-- **Remote Light Toggle**: Switch classroom lights ON/OFF directly from the mobile app with ultra-low latency via Firebase Realtime Database.
+### 🎨 Premium UI/UX
+- **Zoom Drawer Navigation**: A modern side-menu experience for fluid navigation.
+- **Interactive Analytics**: High-performance line charts (fl_chart) for historical trends.
+- **Glassmorphism Design**: High-end visuals with gradients, smooth shadows, and micro-animations.
 
-### 📈 Data Visualization & Recording
-- **Historical Trends**: Beautifully rendered line charts (powered by `fl_chart`) showing temperature and humidity fluctuations over time.
-- **Automated Recording**: Every sensor update is automatically logged into a history timeline for future analysis.
-
-### 🎨 Premium User Experience
-- **Modern UI/UX**: Clean, card-based dashboard with vibrant gradients and smooth micro-animations.
-- **Developer Portfolio**: Integrated "Meet the Developer" section with interactive social links.
-- **Responsive Design**: Optimized for a seamless experience across iOS and Android.
+### 🛠 Integrated Testing Tools
+- **Mobile IoT Simulator**: Built-in screen to simulate sensor data locally from within the app.
+- **Professional Web Simulator**: A dedicated web dashboard for laptop-to-app testing via WebSockets.
 
 ---
 
-## 🛠️ Tech Stack
-
-- **Framework**: [Flutter](https://flutter.dev/) (v3.x)
-- **State Management**: [BLoC / Cubit](https://pub.dev/packages/flutter_bloc) for clean, predictable state transitions.
-- **Database**: [Firebase Realtime Database](https://firebase.google.com/products/realtime-database) for live data synchronization.
-- **Charts**: [fl_chart](https://pub.dev/packages/fl_chart) for high-performance data visualization.
-- **Architecture**: Clean Architecture principles with Repository pattern.
+## 🛠 Tech Stack
+- **Frontend**: Flutter (Dart)
+- **State Management**: BLoC / Cubit
+- **Cloud Backend**: Firebase Real-time Database
+- **IoT Protocol**: MQTT (Mosquitto Broker)
+- **Visuals**: FL Chart & Google Fonts
 
 ---
 

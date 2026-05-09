@@ -24,7 +24,8 @@ Traditional classroom management relies on manual monitoring of environmental fa
 A comprehensive IoT ecosystem consisting of:
 1.  **Hardware Layer**: Sensors and actuators connected to a microcontroller (e.g., ESP32/ESP8266).
 2.  **Cloud Layer**: Firebase Realtime Database and Mosquitto MQTT Broker for data synchronization.
-3.  **Application Layer**: A Flutter mobile app featuring a Zoom Drawer navigation system and dedicated Firebase/MQTT control screens.
+3.  **Simulation Layer**: Mobile and Web-based IoT simulators for robust offline testing.
+4.  **Application Layer**: A Flutter mobile app featuring a Zoom Drawer navigation system and dedicated Firebase/MQTT control screens.
 
 ---
 
@@ -37,6 +38,7 @@ A comprehensive IoT ecosystem consisting of:
 | **Student Count** | Input | Tracks the number of individuals entering/exiting the room. |
 | **Light Level** | Input | Monitors the brightness to determine if artificial lighting is needed. |
 | **Light Status** | Output | Controls the ON/OFF state of the classroom lights. |
+| **System Mode** | Input/Output | Switches between AUTOMATIC and MANUAL operation. |
 
 ---
 
@@ -48,7 +50,8 @@ A comprehensive IoT ecosystem consisting of:
 | **PIR / IR Sensors** | Sensor | Detects motion/entry to count students. |
 | **LDR (Photoresistor)** | Sensor | Measures ambient light intensity. |
 | **Relay Module** | Actuator | Acts as an electronic switch to toggle high-voltage lights. |
-| **LED Indicators** | Actuator | Provides local visual feedback on system status. |
+| **Mobile Simulator** | Virtual Device | Simulates sensor inputs directly from the mobile UI. |
+| **Web Simulator** | Virtual Device | External browser-based tool for MQTT data injection. |
 
 ---
 
@@ -58,16 +61,18 @@ A comprehensive IoT ecosystem consisting of:
 The system follows a three-tier architecture:
 1.  **Device Layer (IoT)**: Collects data and performs physical actions.
 2.  **Communication Layer (Firebase & MQTT)**: Acts as the "Brain" and data bridge for multi-protocol synchronization.
-3.  **User Layer (Mobile App)**: Provides the control and visualization interface.
+3.  **User Layer (Mobile App)**: Provides the control and visualization interface via BLoC state management.
 
 ### Block Diagram
 ```mermaid
 graph TD
-    subgraph "Device Layer (Hardware)"
+    subgraph "Device Layer (Hardware/Simulation)"
         S1[DHT Sensor] --> MCU[Microcontroller - ESP32]
         S2[PIR/IR Sensors] --> MCU
         S3[LDR Sensor] --> MCU
         MCU --> A1[Relay - Lights]
+        MS[Mobile Simulator] -- MQTT --> MQB
+        WS[Web Simulator] -- WebSockets --> MQB
     end
 
     subgraph "Cloud Layer"
@@ -81,6 +86,7 @@ graph TD
         APP --> UI[Dashboard UI]
         APP --> MQT[MQTT Control UI]
         APP --> CH[Historical Charts]
+        APP --> SD[Simulator UI]
     end
 ```
 
