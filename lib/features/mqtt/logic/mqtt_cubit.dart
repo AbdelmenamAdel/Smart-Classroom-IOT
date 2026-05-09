@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:equatable/equatable.dart';
+import '../../../core/constants/constants.dart';
 
 class MqttState extends Equatable {
   final String students;
@@ -49,14 +50,14 @@ class MqttCubit extends Cubit<MqttState> {
   MqttCubit() : super(const MqttState());
 
   Future<void> connect() async {
-    client = MqttServerClient('192.168.1.5', 'flutter_client');
-    client!.port = 1883;
+    client = MqttServerClient(AppConstants.mqttBrokerIp, AppConstants.mqttClientId);
+    client!.port = AppConstants.mqttPort;
     client!.keepAlivePeriod = 20;
     client!.onConnected = _onConnected;
     client!.onDisconnected = _onDisconnected;
 
     final connMessage = MqttConnectMessage()
-        .withClientIdentifier('flutter_client')
+        .withClientIdentifier(AppConstants.mqttClientId)
         .startClean();
     client!.connectionMessage = connMessage;
 
@@ -71,22 +72,22 @@ class MqttCubit extends Cubit<MqttState> {
 
   void _onConnected() {
     emit(state.copyWith(connectionState: MqttConnectionState.connected));
-    client!.subscribe("smartclassroom/#", MqttQos.atLeastOnce);
+    client!.subscribe(AppConstants.topicFilter, MqttQos.atLeastOnce);
 
     client!.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
       final recMess = c[0].payload as MqttPublishMessage;
       final payload = MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
       final topic = c[0].topic;
 
-      if (topic == "smartclassroom/students") {
+      if (topic == AppConstants.topicStudents) {
         emit(state.copyWith(students: payload));
-      } else if (topic == "smartclassroom/temp") {
+      } else if (topic == AppConstants.topicTemp) {
         emit(state.copyWith(temp: payload));
-      } else if (topic == "smartclassroom/humidity") {
+      } else if (topic == AppConstants.topicHumidity) {
         emit(state.copyWith(humidity: payload));
-      } else if (topic == "smartclassroom/current_mode") {
+      } else if (topic == AppConstants.topicCurrentMode) {
         emit(state.copyWith(mode: payload));
-      } else if (topic == "smartclassroom/light_status") {
+      } else if (topic == AppConstants.topicLightStatus) {
         emit(state.copyWith(light: payload));
       }
     });

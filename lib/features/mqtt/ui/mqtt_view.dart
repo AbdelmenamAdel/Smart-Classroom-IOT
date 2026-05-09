@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import '../logic/mqtt_cubit.dart';
 import '../../dashboard/ui/widgets/status_card.dart';
+import '../../../core/constants/constants.dart';
 
 class MqttView extends StatelessWidget {
   const MqttView({super.key});
@@ -163,16 +164,14 @@ class MqttView extends StatelessWidget {
             title: 'Operation Mode',
             currentValue: state.mode,
             options: ['AUTO', 'MANUAL'],
-            onChanged: (val) =>
-                context.read<MqttCubit>().publish('smartclassroom/mode', val),
+            onChanged: (val) => context.read<MqttCubit>().publish(AppConstants.topicModeControl, val),
           ),
           const Divider(height: 32),
           _buildControlButton(
             title: 'Lighting System',
             currentValue: state.light,
             options: ['ON', 'OFF'],
-            onChanged: (val) =>
-                context.read<MqttCubit>().publish('smartclassroom/light', val),
+            onChanged: (val) => context.read<MqttCubit>().publish(AppConstants.topicLightControl, val),
           ),
         ],
       ),
